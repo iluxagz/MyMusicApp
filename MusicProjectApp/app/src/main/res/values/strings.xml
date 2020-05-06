@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">MusicProjectApp</string>
+    <string name="feel">Feel</string>
+    <string name="the">The</string>
+    <string name="atmosphere">Atmosphere</string>
+    <string name="moment">Moment</string>
+    <string name="doIt">Do</string>
+    <string name="yourself">Yourself</string>
+    <string name="not">Not</string>
+    <string name="think">Think</string>
+    <string name="alone">Alone</string>
+    <string name="clear">Clear</string>
+    <string name="your">Your</string>
+    <string name="mind">Mind</string>
+    <string name="_0_00">0:00</string>
+    <string name="current_title">Current Title</string>
+    <string name="artist_name">Artist Name</string>
+    <string name="the_moment">The Moment</string>
+    <string name="clear2">Clear</string>
+    <string name="your_mind">Your Mind</string>
+    <string name="current_playlist">Current Playlist :</string>
+    <string name="wadawdawd">Wadawdawd</string>
+    <string name="wwda_wdasd">Wwda Wdasd</string>
+</resources>
