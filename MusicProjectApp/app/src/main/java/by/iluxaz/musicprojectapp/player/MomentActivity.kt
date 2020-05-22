@@ -42,9 +42,9 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         setContentView(R.layout.music_player_layout)
         mediaPlayer = MediaPlayer()
         mediaController = MediaController(this)
-
         playerSeekBar.progress = 0
         playerSeekBar.max = 100
+        createMediaPlayer(musicPosition)
         playerSeekBar.setOnSeekBarChangeListener(this)
         playButton.setOnClickListener(this)
         nextButton.setOnClickListener(this)
@@ -58,10 +58,10 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         }
 
         listOfTracksButton.setOnClickListener {
-            val intent = Intent(this,TrackListActivity::class.java)
+            val intent = Intent(this, TrackListActivity::class.java)
             startActivity(intent)
-        }
 
+        }
     }
 
     fun milliSecondsToString(time: Int): String {
@@ -76,10 +76,15 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
     }
 
 
-    fun playAudio(position: Int) {
-
+    fun createMediaPlayer(position: Int) {
         mediaPlayer = MediaPlayer.create(this, momentMusic[position])
         mediaPlayer.isLooping
+    }
+
+    fun playAudio(position: Int) {
+        var seekBarProgress = SeekBarProgressThread()
+        handler.postDelayed(seekBarProgress, 50)
+
         playerSeekBar.max = mediaPlayer.duration
         textTimeTotal.text = milliSecondsToString(playerSeekBar.max)
         textCurrentTime.text = milliSecondsToString(mediaPlayer.currentPosition)
@@ -90,8 +95,7 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
 
         mediaPlayer.start()
 
-        var seekBarProgress = SeekBarProgressThread()
-        handler.postDelayed(seekBarProgress, 5000)
+
     }
 
     fun nextAudio() {
@@ -102,6 +106,7 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         } else {
             musicPosition = 0
         }
+        createMediaPlayer(musicPosition)
         playAudio(musicPosition)
     }
 
@@ -113,6 +118,7 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         } else {
             musicPosition = momentMusic.size - 1
         }
+        createMediaPlayer(musicPosition)
         playAudio(musicPosition)
     }
 
@@ -124,7 +130,7 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
             playerSeekBar.progress = currentTime
 
             if (currentTime != mediaPlayer.duration)
-                handler.postDelayed(this, 1000)
+                handler.postDelayed(this, 50)
 
         }
 
@@ -137,10 +143,11 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
                     mediaPlayer.pause()
                     playButton.setImageResource(R.drawable.ic_play)
                 } else {
-                    mediaPlayer.start()
                     playButton.setImageResource(R.drawable.ic_pause)
+                    playAudio(musicPosition)
+                    mediaPlayer.start()
                 }
-                playAudio(musicPosition)
+
             }
 
             R.id.nextButton -> {
@@ -158,7 +165,7 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
+    
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {

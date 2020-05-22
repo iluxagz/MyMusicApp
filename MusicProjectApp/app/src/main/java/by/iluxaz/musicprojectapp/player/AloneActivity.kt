@@ -15,6 +15,5 @@ class AloneActivity : MomentActivity(){
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-
     }
 }
