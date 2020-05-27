@@ -21,4 +21,7 @@
     <string name="current_playlist">Current Playlist</string>
     <string name="wadawdawd">Wadawdawd</string>
     <string name="wwda_wdasd">Wwda Wdasd</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

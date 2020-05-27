@@ -19,17 +19,70 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
     private val momentMusic = intArrayOf(
         R.raw.luqus_ill_need_you,
         R.raw.menual_amplitude,
-        R.raw.pensees_menual_disconnect
+        R.raw.pensees_menual_disconnect,
+        R.raw.bmth_steal_something,
+        R.raw.bones_90210,
+        R.raw.crlsn_perfect,
+        R.raw.olorgin_alone_with_you,
+        R.raw.dasha_charusha_husband_and_wife,
+        R.raw.exit_left,
+        R.raw.glitch_vacuum,
+        R.raw.iluxaz_free_your_mind,
+        R.raw.menual_planetary,
+        R.raw.bones_true_fear,
+        R.raw.silence_i_could_live
     )
 
     private val momentMusicCover = intArrayOf(
         R.drawable.feel_the_moment,
         R.drawable.feel_the_moment2,
-        R.drawable.feel_the_moment3
+        R.drawable.feel_the_moment3,
+        R.drawable.feel_the_moment4,
+        R.drawable.feel_the_moment5,
+        R.drawable.feel_the_moment6,
+        R.drawable.feel_the_moment7,
+        R.drawable.feel_the_moment8,
+        R.drawable.feel_the_moment9,
+        R.drawable.feel_the_moment10,
+        R.drawable.feel_the_moment11,
+        R.drawable.feel_the_moment12,
+        R.drawable.feel_the_moment13,
+        R.drawable.feel_the_moment14
+
     )
 
-    val artistOfTrack = arrayListOf("Luqus", "Menual", "Pensees & Menual")
-    val nameOfTrack = arrayListOf("I'll Need You", "Amplitude", "Disconnect")
+    val artistOfTrack = arrayListOf(
+        "Luqus",
+        "Menual",
+        "Pensees & Menual",
+        "Bring Me The Horizon",
+        "Bones",
+        "CRLSN",
+        "Olorgin",
+        "Dasha Charusha",
+        "EXIT",
+        "Glitch",
+        "Iluxa_Z",
+        "Menual",
+        "Bones",
+        "Silence"
+    )
+    val nameOfTrack = arrayListOf(
+        "I'll Need You",
+        "Amplitude",
+        "Disconnect",
+        "Steal Something",
+        "90210",
+        "Perfect",
+        "Alone with You",
+        "Husband and Wife",
+        "LEFT",
+        "Vacuum",
+        "Free Your Mind",
+        "Planetary",
+        "True Fear",
+        "I Could Live"
+    )
 
     var musicPosition = 0
     var handler = Handler()
@@ -40,7 +93,6 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.music_player_layout)
-        mediaPlayer = MediaPlayer()
         mediaController = MediaController(this)
         playerSeekBar.progress = 0
         playerSeekBar.max = 100
@@ -49,6 +101,7 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         playButton.setOnClickListener(this)
         nextButton.setOnClickListener(this)
         previousButton.setOnClickListener(this)
+
 
         backToMenuButton.setOnClickListener {
             if (mediaPlayer.isPlaying)
@@ -64,6 +117,10 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
+    fun createMediaPlayer(position: Int) {
+        mediaPlayer = MediaPlayer.create(this, momentMusic[position])
+    }
+
     fun milliSecondsToString(time: Int): String {
         var correctTime: String
         var sec = TimeUnit.MILLISECONDS.toSeconds(time.toLong())
@@ -75,32 +132,29 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         return correctTime + "$sec"
     }
 
-
-    fun createMediaPlayer(position: Int) {
-        mediaPlayer = MediaPlayer.create(this, momentMusic[position])
-        mediaPlayer.isLooping
-    }
-
     fun playAudio(position: Int) {
         var seekBarProgress = SeekBarProgressThread()
         handler.postDelayed(seekBarProgress, 50)
-
         playerSeekBar.max = mediaPlayer.duration
+        playerSeekBar.progress = mediaPlayer.currentPosition
+
         textTimeTotal.text = milliSecondsToString(playerSeekBar.max)
         textCurrentTime.text = milliSecondsToString(mediaPlayer.currentPosition)
-        playerSeekBar.progress = mediaPlayer.currentPosition
-        titlePhoto.setImageResource(momentMusicCover[position])
         textTitleOfTrack.text = nameOfTrack[position]
         textNameOfArtist.text = artistOfTrack[position]
+        titlePhoto.setImageResource(momentMusicCover[position])
 
         mediaPlayer.start()
-
+        mediaPlayer.setOnCompletionListener {
+            nextAudio()
+        }
 
     }
 
     fun nextAudio() {
         if (mediaPlayer.isPlaying)
             mediaPlayer.stop()
+        mediaPlayer.release()
         if (musicPosition < (momentMusic.size - 1)) {
             musicPosition++
         } else {
@@ -113,6 +167,7 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
     fun previousAudio() {
         if (mediaPlayer.isPlaying)
             mediaPlayer.stop()
+        mediaPlayer.release()
         if (musicPosition > 0) {
             musicPosition--
         } else {
@@ -165,7 +220,7 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
-    
+
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
@@ -173,4 +228,5 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
             mediaPlayer.seekTo(it)
         }
     }
+
 }

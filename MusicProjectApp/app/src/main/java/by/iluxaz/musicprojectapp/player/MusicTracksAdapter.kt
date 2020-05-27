@@ -32,7 +32,8 @@ class MusicTracksAdapter(val list: ArrayList<MusicTracks>) :
         myView.trackListNameOfArtist.text = list[position].nameOfArtist
         myView.trackListNameOfTrack.text = list[position].nameOfTrack
         myView.textTimeDuration.text = list[position].timeDuration
-        Picasso.get().load(list[position].coverImage).into(myView.trackListImage)
+        Picasso.get().load(list[position].coverImage).fit().centerCrop().into(myView.trackListImage)
+
 
         myView.setOnClickListener {
             Toast.makeText(holder.itemView.context, list.get(position).nameOfTrack,Toast.LENGTH_SHORT)

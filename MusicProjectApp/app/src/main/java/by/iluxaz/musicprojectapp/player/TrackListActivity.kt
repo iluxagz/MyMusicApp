@@ -13,11 +13,13 @@ class TrackListActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.track_list_layout)
 
-        MusicTracksCollection.instance.addMusicTracksToList()
+        val musicTracksCollection = MusicTracksCollection
+        musicTracksCollection.instance.musicCollection
 
         recyclerView.adapter = MusicTracksAdapter(MusicTracksCollection.instance.musicCollection)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
+
 
         downButton.setOnClickListener {
             val intent = Intent(this,MomentActivity::class.java)
