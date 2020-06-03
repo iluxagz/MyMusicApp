@@ -25,7 +25,11 @@
             android:theme="@style/MusicPlayerScreenTheme" />
 
         <activity
-            android:name=".player.TrackListActivity"
+            android:name=".player.MomentTrackListActivity"
+            android:theme="@style/MusicPlayerScreenTheme" />
+
+        <activity
+            android:name=".player.AloneTrackListActivity"
             android:theme="@style/MusicPlayerScreenTheme" />
 
         <activity

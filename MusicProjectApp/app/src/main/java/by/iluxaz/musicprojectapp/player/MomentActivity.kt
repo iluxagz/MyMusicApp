@@ -51,7 +51,7 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
 
     )
 
-    val artistOfTrack = arrayListOf(
+    private val artistOfTrack = arrayListOf(
         "Luqus",
         "Menual",
         "Pensees & Menual",
@@ -67,7 +67,8 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         "Bones",
         "Silence"
     )
-    val nameOfTrack = arrayListOf(
+
+    private val nameOfTrack = arrayListOf(
         "I'll Need You",
         "Amplitude",
         "Disconnect",
@@ -84,11 +85,11 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         "I Could Live"
     )
 
-    var musicPosition = 0
+    private var musicPosition = 0
     var handler = Handler()
 
-    lateinit var mediaPlayer: MediaPlayer
-    lateinit var mediaController: MediaController
+    private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var mediaController: MediaController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,11 +98,11 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         playerSeekBar.progress = 0
         playerSeekBar.max = 100
         createMediaPlayer(musicPosition)
+
         playerSeekBar.setOnSeekBarChangeListener(this)
         playButton.setOnClickListener(this)
         nextButton.setOnClickListener(this)
         previousButton.setOnClickListener(this)
-
 
         backToMenuButton.setOnClickListener {
             if (mediaPlayer.isPlaying)
@@ -111,20 +112,19 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         }
 
         listOfTracksButton.setOnClickListener {
-            val intent = Intent(this, TrackListActivity::class.java)
+            val intent = Intent(this, MomentTrackListActivity::class.java)
             startActivity(intent)
-
         }
     }
 
-    fun createMediaPlayer(position: Int) {
+    private fun createMediaPlayer(position: Int) {
         mediaPlayer = MediaPlayer.create(this, momentMusic[position])
     }
 
     fun milliSecondsToString(time: Int): String {
         var correctTime: String
         var sec = TimeUnit.MILLISECONDS.toSeconds(time.toLong())
-        var min = TimeUnit.SECONDS.toMinutes(sec)
+        val min = TimeUnit.SECONDS.toMinutes(sec)
         sec %= 60
         correctTime = "$min : "
         if (sec < 10)
@@ -132,14 +132,14 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         return correctTime + "$sec"
     }
 
-    fun playAudio(position: Int) {
-        var seekBarProgress = SeekBarProgressThread()
+    private fun playAudio(position: Int) {
+        val seekBarProgress = SeekBarProgressThread()
         handler.postDelayed(seekBarProgress, 50)
         playerSeekBar.max = mediaPlayer.duration
         playerSeekBar.progress = mediaPlayer.currentPosition
 
         textTimeTotal.text = milliSecondsToString(playerSeekBar.max)
-        textCurrentTime.text = milliSecondsToString(mediaPlayer.currentPosition)
+        textCurrentTime.text = milliSecondsToString(playerSeekBar.progress)
         textTitleOfTrack.text = nameOfTrack[position]
         textNameOfArtist.text = artistOfTrack[position]
         titlePhoto.setImageResource(momentMusicCover[position])
@@ -151,10 +151,10 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
 
     }
 
-    fun nextAudio() {
+     private fun nextAudio() {
         if (mediaPlayer.isPlaying)
             mediaPlayer.stop()
-        mediaPlayer.release()
+            mediaPlayer.release()
         if (musicPosition < (momentMusic.size - 1)) {
             musicPosition++
         } else {
@@ -164,10 +164,10 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         playAudio(musicPosition)
     }
 
-    fun previousAudio() {
+     private fun previousAudio() {
         if (mediaPlayer.isPlaying)
             mediaPlayer.stop()
-        mediaPlayer.release()
+            mediaPlayer.release()
         if (musicPosition > 0) {
             musicPosition--
         } else {
@@ -177,10 +177,9 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
         playAudio(musicPosition)
     }
 
-
     inner class SeekBarProgressThread : Runnable {
         override fun run() {
-            var currentTime = mediaPlayer.currentPosition
+            val currentTime = mediaPlayer.currentPosition
             textCurrentTime.text = milliSecondsToString(currentTime)
             playerSeekBar.progress = currentTime
 
@@ -202,7 +201,6 @@ open class MomentActivity : AppCompatActivity(), View.OnClickListener,
                     playAudio(musicPosition)
                     mediaPlayer.start()
                 }
-
             }
 
             R.id.nextButton -> {

@@ -36,7 +36,7 @@ class MusicTracksAdapter(val list: ArrayList<MusicTracks>) :
 
 
         myView.setOnClickListener {
-            Toast.makeText(holder.itemView.context, list.get(position).nameOfTrack,Toast.LENGTH_SHORT)
+            Toast.makeText(holder.itemView.context, list[position].nameOfTrack,Toast.LENGTH_SHORT)
                 .show()
         }
 
